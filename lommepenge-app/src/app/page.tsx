@@ -6,36 +6,34 @@ import clientPromise from '../../lib/mongodb'
 
 const inter = Inter({ subsets: ['latin'] })
 
-type ServersidePropsType = {
-  isConnected: boolean;
-  error: unknown
-}
+// type DbConnectType = {
+//   isConnected: boolean;
+// }
 
-export async function getServerSideProps(context: GetServerSidePropsContext)  {
-  try {
-    console.log("hello")
-    // await clientPromise
-    // `await clientPromise` will use the default database passed in the MONGODB_URI
-    // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
-    //
-    // `const client = await clientPromise`
-    // `const db = client.db("myDatabase")`
-    //
-    // Then you can execute queries against your database like so:
-    // db.find({}) or any of the MongoDB Node Driver commands`
+// const getDbData: DbConnectType = async () => {
+//   try {
+//     console.log("hello")
+//     // await clientPromise
+//     // `await clientPromise` will use the default database passed in the MONGODB_URI
+//     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
+//     //
+//     // `const client = await clientPromise`
+//     // `const db = client.db("myDatabase")`
+//     //
+//     // Then you can execute queries against your database like so:
+//     // db.find({}) or any of the MongoDB Node Driver commands`
 
 
-    return {
-      props: { isConnected: true },
-    }
-  } catch (e) {
-    console.log(e)
-    return {
-      props: { isConnected: false, error: e },
-    }
-  }
-}
-
+//     return {
+//       isConnected: true 
+//     }
+//   } catch (e: unknown) {
+//     console.log(e)
+//     return {
+//       isConnected: false
+//     }
+//   }
+// }
 
 export default async function Home() {
   const client = await clientPromise;
