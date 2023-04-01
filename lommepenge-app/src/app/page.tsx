@@ -3,7 +3,8 @@ import { Inter } from 'next/font/google'
 import styles from './page.module.css'
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import GetMongoClient from '../../lib/mongodb'
-import LoginForm from '@/components/Login'
+import LoginForm from '@/hooks/useLogin'
+import useMongoUserStore from '@/stores/AuthStore'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,19 +38,14 @@ const inter = Inter({ subsets: ['latin'] })
 // }
 
 export default async function Home() {
-  // const client = await GetMongoClient();
-  // const db = client.db("MoneyHandler");
-  // db.createCollection
-  // const isConnected = db !== undefined;
-  // const myClassName = isConnected ? "text-green-500" : "text-orange-400"
+  const clientService = useMongoUserStore((state) => state.clientService);
+  const client = await clientService;
+  const db = client?.db("MoneyHandler");
+  db?.createCollection
+  const isConnected = db !== undefined;
   return (
-    <main className='text-3xl font-bold underline'>
-      <div className={myClassName}>
-        {
-          isConnected ? <>Hello!</> : <LoginForm />
-        }
-        {isConnected ? "Connected!" : "Not connected :(" }
-      </div>
-    </main>
+    <div className='flex justify-center items-center min-h-full'>
+      Hello!
+    </div>
   )
 }
