@@ -36,12 +36,17 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default async function Home() {
   const myDb = await getDb("MoneyHandler");
+  const collectionList = await myDb.collections();
   return (
-    <RequireAuthentication>
-      <div className='flex justify-center items-center min-h-full'>
+    <div className='flex flex-col justify-center items-center min-h-full'>
+      <span>
         Hello!
-      </div>
-    </RequireAuthentication>
-
+      </span>
+      <ul>
+        {collectionList.map(col => {
+          return <li> {col.collectionName}</li>
+        })}
+      </ul>
+    </div>
   )
 }

@@ -14,8 +14,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>
-          {children}
+        <main className='dark:bg-stone-900 dark:text-red-400 min-h-screen'>
+          <RequireAuthentication>
+            {children}
+          </RequireAuthentication>
         </main>
       </body>
     </html>
