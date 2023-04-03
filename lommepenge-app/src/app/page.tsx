@@ -1,10 +1,5 @@
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import styles from './page.module.css'
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
-import GetMongoClient from '../../lib/mongodb'
-import LoginForm from '@/hooks/useLogin'
-import useMongoUserStore from '@/stores/AuthStore'
+import getDb from './database'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,11 +33,7 @@ const inter = Inter({ subsets: ['latin'] })
 // }
 
 export default async function Home() {
-  const clientService = useMongoUserStore((state) => state.clientService);
-  const client = await clientService;
-  const db = client?.db("MoneyHandler");
-  db?.createCollection
-  const isConnected = db !== undefined;
+  const myDb = await getDb("MoneyHandler");
   return (
     <div className='flex justify-center items-center min-h-full'>
       Hello!

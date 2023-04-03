@@ -1,19 +1,20 @@
 "use client"
-import { MongoClient } from 'mongodb';
-import GetMongoClient from '../../lib/mongodb';
 import { create } from 'zustand'
 
 interface MongoUserState {
-    clientService?: Promise<MongoClient>;
+    isAuthenticated: boolean;
     loginMongo: (username: string, password: string) => void;
 }
 
 const useMongoUserStore = create<MongoUserState>((set, get) => ({
-    clientService: undefined,
-    userName: undefined,
+    isAuthenticated: false,
     loginMongo: (username: string, password: string) => set((state) => {
-        const clientPromise = GetMongoClient(username, password);
-        state.clientService = clientPromise;
+        if(password !== 'Test.1234!') {
+            state.isAuthenticated = false;
+        }
+        else{
+            state.isAuthenticated = true;
+        }
         return state;
     })
 }));

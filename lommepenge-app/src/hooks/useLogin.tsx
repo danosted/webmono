@@ -3,11 +3,11 @@ import useMongoUserStore from "@/stores/AuthStore";
 import { useState } from "react";
 
 const LoginForm = () => {
-    const addUser = useMongoUserStore((state) => state.loginMongo);
+    const loginMongo = useMongoUserStore((state) => state.loginMongo);
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
-    return <form onSubmit={(e) => addUser(userName, password)}>
+    return <form onSubmit={(e) => loginMongo(userName, password)}>
       <label>
         Email:
         <input
