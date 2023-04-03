@@ -1,3 +1,5 @@
+import RequireAuthentication from '@/components/RequireAuthentication';
+import LoginForm from '@/components/useLogin';
 import { Inter } from 'next/font/google'
 import getDb from './database'
 
@@ -35,8 +37,11 @@ const inter = Inter({ subsets: ['latin'] })
 export default async function Home() {
   const myDb = await getDb("MoneyHandler");
   return (
-    <div className='flex justify-center items-center min-h-full'>
-      Hello!
-    </div>
+    <RequireAuthentication>
+      <div className='flex justify-center items-center min-h-full'>
+        Hello!
+      </div>
+    </RequireAuthentication>
+
   )
 }

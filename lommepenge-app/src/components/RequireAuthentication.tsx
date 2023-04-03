@@ -3,7 +3,7 @@ import useMongoUserStore from '@/stores/AuthStore';
 import LoginForm from '@/components/useLogin';
 import { PropsWithChildren } from 'react';
 
-export default function ({ children }: PropsWithChildren) {
+const RequireAuthentication = ({ children }: PropsWithChildren) => {
   const isAuthenticated = useMongoUserStore((state) => state.isAuthenticated)
 
   return (
@@ -14,3 +14,5 @@ export default function ({ children }: PropsWithChildren) {
     </>
   )
 }
+
+export default RequireAuthentication;

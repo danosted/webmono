@@ -1,4 +1,4 @@
-import AuthHandler from './authHandler'
+import RequireAuthentication from '@/components/RequireAuthentication'
 import './globals.css'
 
 export const metadata = {
@@ -15,9 +15,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <AuthHandler>
           {children}
-          </AuthHandler>
         </main>
       </body>
     </html>
