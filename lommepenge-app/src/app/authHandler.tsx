@@ -1,6 +1,6 @@
 "use client"
 import useMongoUserStore from '@/stores/AuthStore';
-import LoginForm from '@/components/useLogin';
+import LoginForm from '@/components/LoginForm';
 import { PropsWithChildren } from 'react';
 
 export default function ({ children }: PropsWithChildren) {

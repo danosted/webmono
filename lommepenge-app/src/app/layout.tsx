@@ -1,5 +1,6 @@
 import RequireAuthentication from '@/components/RequireAuthentication'
 import './globals.css'
+import NavBar from './NavBar'
 
 export const metadata = {
   title: 'Create Next App',
@@ -14,6 +15,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
+        <NavBar />
         <main className='dark:bg-stone-900 dark:text-red-400 min-h-screen'>
           <RequireAuthentication>
             {children}
