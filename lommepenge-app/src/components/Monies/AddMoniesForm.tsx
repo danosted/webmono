@@ -1,8 +1,7 @@
 "use client"
-
 import Money from "@/models/money";
 import Payee from "@/models/payee";
-import { ObjectId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
 import { FormEvent, useEffect, useState } from "react";
 import SelectPicker from "../SelectPicker";
 
@@ -14,11 +13,11 @@ type AddMoniesFormProps = {
 const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
 
   const [amount, setAmount] = useState(0);
-  const [payee, setPayee] = useState<Payee>({ name: "Select payee" });
-  const [localPayeeList, setLocalPayeeList] = useState<Array<Payee>>([{ name: "Select payee" }, ...payeeList]);
+  const [payee, setPayee] = useState<WithId<Payee>>();
+  const [localPayeeList, setLocalPayeeList] = useState<Array<WithId<Payee>>>([]);
 
   useEffect(() => {
-    setLocalPayeeList([{ name: "Select payee" }, ...payeeList]);
+    setLocalPayeeList([]);
   }, [payeeList])
 
   const addToCol = async (e: FormEvent<HTMLFormElement>) => {
@@ -38,6 +37,7 @@ const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
     if (!match) return;
     setPayee(match);
   }
+  
   return <form onSubmit={addToCol}>
     <label>
       Name:
@@ -52,7 +52,7 @@ const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
       <SelectPicker
         onChange={v => payeeSelectCallback(v.id)}
         pickList={localPayeeList.map(l => { return { id: l._id?.toString(), name: l.name } })}
-        selected={{ name: payee.name, id: payee._id?.toString() }}
+        selected={{ name: payee?.name ?? "please select", id: payee?._id?.toString() }}
       />
     </label>
     <br />

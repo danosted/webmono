@@ -17,9 +17,9 @@ export default async function RootLayout({
       <body>
         <NavBar />
         <main className='dark:bg-stone-900 dark:text-red-400 min-h-screen'>
-          <RequireAuthentication>
+          
             {children}
-          </RequireAuthentication>
+          
         </main>
       </body>
     </html>

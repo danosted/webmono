@@ -1,20 +1,26 @@
 "use client"
-import User from "@/models/user";
-import useMongoUserStore from "@/stores/AuthStore";
-import { Collection } from "mongodb";
+import { UserPostBody } from "@/app/api/users/route";
 import { FormEvent, useState } from "react";
 
 type AddUserFormProps = {
   callback: (name: string) => Promise<void>
 }
 
-const AddUserForm = ({ callback }: AddUserFormProps) => {
+const AddUserForm = () => {
 
   const [name, setName] = useState("");
 
   const addToCol = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await callback(name);
+    const userPostBody : UserPostBody = {
+      user: {
+        name: name
+      }
+    };
+    await fetch('api/users',{
+      method: 'POST',
+      body: JSON.stringify(userPostBody)
+    });
     setName("");
   }
   return <form onSubmit={addToCol}>

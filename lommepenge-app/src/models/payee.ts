@@ -1,9 +1,9 @@
-import { OptionalId, WithId } from "mongodb";
+import { OptionalId, OptionalUnlessRequiredId, WithId } from "mongodb";
 
 interface PayeeInterface {
     name: string;
 }
 
-type Payee = OptionalId<PayeeInterface>
+type Payee = PayeeInterface
 
 export default Payee;

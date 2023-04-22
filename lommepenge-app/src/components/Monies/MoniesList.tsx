@@ -1,10 +1,10 @@
 import { TrashIcon } from '@heroicons/react/24/solid'
 import { MouseEvent } from "react";
-import MyCollection from "@/models/collection";
 import Money from '@/models/money';
+import { WithId } from 'mongodb';
 
 type MoniesListProps = {
-    currentlist: Array<Money>;
+    currentlist: Array<WithId<Money>>;
     deleteCallback: (id: string) => Promise<void>
 }
 

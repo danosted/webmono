@@ -1,22 +1,30 @@
+"use client"
 import User from "@/models/user";
 import { ObjectId, WithId } from "mongodb";
 import { TrashIcon } from '@heroicons/react/24/solid'
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
-type ReceiverListProps = {
-    currentlist: Array<WithId<User>>;
-    deleteCallback: (id: ObjectId) => Promise<void>
-}
+const ReceiverList = () => {
 
-const ReceiverList = ({ currentlist, deleteCallback }: ReceiverListProps) => {
-
+    const [currentList, setCurrentList] = useState<Array<WithId<User>>>([]);
     const onDeleteClick = async (e: MouseEvent<HTMLButtonElement>, id: ObjectId) => {
         e.preventDefault();
-        await deleteCallback(id);
+
     }
+    useEffect(() => {
+        async function getUserListAsync() {
+            const userListResponse = await fetch('api/users', {
+                method: 'GET'
+            });
+            const userList = await userListResponse.json();
+            console.log(userList);
+            setCurrentList(JSON.parse(userList) );
+        }
+        getUserListAsync();
+    }, []);
     return (
         <ul>
-            {currentlist.map(receiver => {
+            {currentList.map(receiver => {
                 return (
                     <li
                         key={receiver._id.toString()}

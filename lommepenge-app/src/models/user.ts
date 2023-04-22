@@ -1,4 +1,4 @@
-import { OptionalId, WithId } from "mongodb";
+import { OptionalId, OptionalUnlessRequiredId, WithId } from "mongodb";
 import Payee from "./payee";
 
 interface UserInterface {
@@ -6,6 +6,6 @@ interface UserInterface {
     payeeList?: Array<Payee>;
 }
 
-type User = OptionalId<UserInterface>
+type User = UserInterface
 
 export default User;

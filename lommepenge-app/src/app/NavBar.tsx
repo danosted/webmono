@@ -10,7 +10,7 @@ const NavBar = () => {
     <nav>
       <ul className="flex items-center justify-center bg-rose-900 text-red-200 gap-x-8 h-8 sticky top-0 left-0 w-full">
         {
-          isAuthenticated &&
+          // isAuthenticated &&
           <>
             <li>
               <Link href={NAVIGATION_LINKS.USERS}>Users</Link>
