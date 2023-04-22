@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AddMoniesForm from "./AddMoniesForm";
 import MoniesList from "./MoniesList";
 import Money from "@/models/money";
@@ -16,10 +16,10 @@ const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerPr
 
   const [moniesList, setMoniesList] = useState<Array<WithId<Money>>>([]);
 
-  const getLocalAsync = async () => {
+  const getLocalAsync = useCallback(async () => {
     const collections = await getList();
     setMoniesList(collections)
-  }
+  }, []);
   const addLocalAsync = async (money: Money) => {
     await addCallback(money);
     await getLocalAsync();

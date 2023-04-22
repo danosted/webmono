@@ -1,7 +1,7 @@
 "use client"
 import User from "@/models/user";
 import { ObjectId, WithId } from "mongodb";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AddUserForm from "./AddUser";
 import BaseEntryList from "./BaseEntryList";
 
@@ -15,10 +15,10 @@ const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: R
 
   const [userList, setUserList] = useState<Array<WithId<User>>>([]);
 
-  const getUserLocalAsync = async () => {
+  const getUserLocalAsync = useCallback(async () => {
     const recivers = await getReceiverList();
     setUserList(recivers)
-  }
+  }, []);
   const addUserLocalAsync = async (name: string) => {
     await addUserCallback(name);
     await getUserLocalAsync();
@@ -27,7 +27,7 @@ const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: R
     await deleteUserCallback(id);
     await getUserLocalAsync();
   }
-  
+
   useEffect(() => {
     getUserLocalAsync();
 
