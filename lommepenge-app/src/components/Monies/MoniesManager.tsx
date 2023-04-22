@@ -16,11 +16,6 @@ const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerPr
 
   const [moniesList, setMoniesList] = useState<Array<WithId<Money>>>([]);
 
-  useEffect(() => {
-    getLocalAsync();
-
-  }, []);
-
   const getLocalAsync = async () => {
     const collections = await getList();
     setMoniesList(collections)
@@ -33,6 +28,11 @@ const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerPr
     await deleteCallback(id);
     await getLocalAsync();
   }
+
+  useEffect(() => {
+    getLocalAsync();
+
+  }, [getLocalAsync]);
   return <>
     <AddMoniesForm callback={addLocalAsync} />
     <BaseEntryList currentlist={moniesList} deleteCallback={deleteLocalAsync} />

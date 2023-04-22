@@ -15,11 +15,6 @@ const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: R
 
   const [userList, setUserList] = useState<Array<WithId<User>>>([]);
 
-  useEffect(() => {
-    getUserLocalAsync();
-
-  }, []);
-
   const getUserLocalAsync = async () => {
     const recivers = await getReceiverList();
     setUserList(recivers)
@@ -32,6 +27,12 @@ const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: R
     await deleteUserCallback(id);
     await getUserLocalAsync();
   }
+  
+  useEffect(() => {
+    getUserLocalAsync();
+
+  }, [getUserLocalAsync]);
+
   return <>
     <AddUserForm callback={addUserLocalAsync} />
     <BaseEntryList currentlist={userList} deleteCallback={removeUserLocalAsync} />

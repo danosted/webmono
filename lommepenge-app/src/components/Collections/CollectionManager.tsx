@@ -14,11 +14,6 @@ const CollectionManager = ({ addCallback, getList, deleteCallback }: CollectionM
 
   const [collectionList, setCollectionList] = useState<MyCollection[]>([]);
 
-  useEffect(() => {
-    getLocalAsync();
-
-  }, []);
-
   const getLocalAsync = async () => {
     const collections = await getList();
     setCollectionList(collections)
@@ -31,6 +26,12 @@ const CollectionManager = ({ addCallback, getList, deleteCallback }: CollectionM
     await deleteCallback(name);
     await getLocalAsync();
   }
+
+  useEffect(() => {
+    getLocalAsync();
+
+  }, [getLocalAsync]);
+
   return <>
     <AddCollectionForm callback={addLocalAsync} />
     <CollectionList currentlist={collectionList} deleteCallback={deleteLocalAsync} />
