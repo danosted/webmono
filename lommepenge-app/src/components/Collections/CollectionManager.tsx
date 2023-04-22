@@ -17,7 +17,7 @@ const CollectionManager = ({ addCallback, getList, deleteCallback }: CollectionM
   const getLocalAsync = useCallback(async () => {
     const collections = await getList();
     setCollectionList(collections)
-  }, []);
+  }, [getList]);
   const addLocalAsync = async (name: string) => {
     await addCallback(name);
     getLocalAsync();

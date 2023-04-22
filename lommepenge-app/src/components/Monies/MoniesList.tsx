@@ -2,9 +2,10 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 import { MouseEvent } from "react";
 import MyCollection from "@/models/collection";
 import Money from '@/models/money';
+import { WithId } from 'mongodb';
 
 type MoniesListProps = {
-    currentlist: Array<Money>;
+    currentlist: Array<WithId<Money>>;
     deleteCallback: (id: string) => Promise<void>
 }
 
@@ -23,7 +24,7 @@ const MoniesList = ({ currentlist, deleteCallback }: MoniesListProps) => {
                         key={receiver._id?.toString()}
                         className="flex flex-row align-middle justify-center gap-x-2">
                         <span>
-                            {receiver.payee.name}
+                            {receiver.name}
                         </span>
                         <button type="button" onClick={e => onDeleteClick(e, receiver._id?.toString())}>
                             <TrashIcon className="w-6 h-6"></TrashIcon>

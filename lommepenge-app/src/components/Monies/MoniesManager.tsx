@@ -19,7 +19,7 @@ const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerPr
   const getLocalAsync = useCallback(async () => {
     const collections = await getList();
     setMoniesList(collections)
-  }, []);
+  }, [getList]);
   const addLocalAsync = async (money: Money) => {
     await addCallback(money);
     await getLocalAsync();

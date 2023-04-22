@@ -18,7 +18,7 @@ const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: R
   const getUserLocalAsync = useCallback(async () => {
     const recivers = await getReceiverList();
     setUserList(recivers)
-  }, []);
+  }, [getReceiverList]);
   const addUserLocalAsync = async (name: string) => {
     await addUserCallback(name);
     await getUserLocalAsync();
