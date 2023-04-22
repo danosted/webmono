@@ -1,11 +1,9 @@
 import { OptionalId, WithId } from "mongodb";
 import Payee from "./payee";
+import BaseEntry from "./baseEntry";
 
-interface UserInterface {
-    name: string;
+interface User extends BaseEntry {
     payeeList?: Array<Payee>;
 }
-
-type User = OptionalId<UserInterface>
 
 export default User;

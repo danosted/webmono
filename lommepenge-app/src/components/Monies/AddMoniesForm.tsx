@@ -2,41 +2,51 @@
 
 import Money from "@/models/money";
 import Payee from "@/models/payee";
-import { ObjectId } from "mongodb";
+import { ObjectId, OptionalId, WithId } from "mongodb";
 import { FormEvent, useEffect, useState } from "react";
 import SelectPicker from "../SelectPicker";
 
 type AddMoniesFormProps = {
   callback: (money: Money) => Promise<void>;
-  payeeList: Array<Payee>;
+  // payeeList: Array<WithId<Payee>>;
 }
 
-const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
+const AddMoniesForm = ({ callback }: AddMoniesFormProps) => {
 
   const [amount, setAmount] = useState(0);
-  const [payee, setPayee] = useState<Payee>({ name: "Select payee" });
-  const [localPayeeList, setLocalPayeeList] = useState<Array<Payee>>([{ name: "Select payee" }, ...payeeList]);
+  // const [payee, setPayee] = useState<WithId<Payee>>();
+  // const [localPayeeList, setLocalPayeeList] = useState<Array<WithId<Payee>>>([]);
 
-  useEffect(() => {
-    setLocalPayeeList([{ name: "Select payee" }, ...payeeList]);
-  }, [payeeList])
+  // useEffect(() => {
+  //   setLocalPayeeList([{ name: "Select payee", _id: new ObjectId() }, ...payeeList]);
+  // }, [payeeList])
+
+  // const addToCol = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!payee) return;
+  //   await callback({
+  //     currentAmount: amount,
+  //     name: 'test',
+  //     payee: payee
+  //   });
+  //   setAmount(0);
+  //   setPayee(undefined);
+  // }
+
+  // const payeeSelectCallback = (id?: string) => {
+  //   if (!id) return;
+  //   const match = localPayeeList.find(p => p._id?.equals(id));
+  //   if (!match) return;
+  //   setPayee(match);
+  // }
 
   const addToCol = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!payee) return;
     await callback({
       currentAmount: amount,
-      payee: { name: payee.name, _id: new ObjectId(payee._id) },
+      name: 'test',
     });
     setAmount(0);
-    setPayee(localPayeeList[0]);
-  }
-
-  const payeeSelectCallback = (id?: string) => {
-    if (!id) return;
-    const match = localPayeeList.find(p => p._id?.equals(id));
-    if (!match) return;
-    setPayee(match);
   }
   return <form onSubmit={addToCol}>
     <label>
@@ -49,11 +59,11 @@ const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
     </label>
     <label>
       Select Payee:
-      <SelectPicker
+      {/* <SelectPicker
         onChange={v => payeeSelectCallback(v.id)}
         pickList={localPayeeList.map(l => { return { id: l._id?.toString(), name: l.name } })}
-        selected={{ name: payee.name, id: payee._id?.toString() }}
-      />
+        selected={{ name: payee?.name ?? "please select", id: payee?._id?.toString() }}
+      /> */}
     </label>
     <br />
     <button type="submit">Submit</button>

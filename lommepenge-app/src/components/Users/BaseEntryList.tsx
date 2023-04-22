@@ -2,13 +2,14 @@ import User from "@/models/user";
 import { ObjectId, WithId } from "mongodb";
 import { TrashIcon } from '@heroicons/react/24/solid'
 import { MouseEvent } from "react";
+import BaseEntry from "@/models/baseEntry";
 
 type ReceiverListProps = {
-    currentlist: Array<WithId<User>>;
-    deleteCallback: (id: ObjectId) => Promise<void>
+    currentlist: Array<WithId<BaseEntry>>;
+    deleteCallback: (id: ObjectId | string) => Promise<void>
 }
 
-const ReceiverList = ({ currentlist, deleteCallback }: ReceiverListProps) => {
+const BaseEntryList = ({ currentlist, deleteCallback }: ReceiverListProps) => {
 
     const onDeleteClick = async (e: MouseEvent<HTMLButtonElement>, id: ObjectId) => {
         e.preventDefault();
@@ -34,4 +35,4 @@ const ReceiverList = ({ currentlist, deleteCallback }: ReceiverListProps) => {
     )
 }
 
-export default ReceiverList;
+export default BaseEntryList;

@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import AddMoniesForm from "./AddMoniesForm";
 import MoniesList from "./MoniesList";
 import Money from "@/models/money";
-import { ObjectId } from "mongodb";
+import { ObjectId, WithId } from "mongodb";
+import BaseEntryList from "../Users/BaseEntryList";
 
 type MoniesManagerProps = {
   addCallback: (money: Money) => Promise<void>;
-  getList: () => Promise<Array<Money>>;
-  deleteCallback: (id: string) => Promise<void>;
+  getList: () => Promise<Array<WithId<Money>>>;
+  deleteCallback: (id: ObjectId | string) => Promise<void>;
 }
 
 const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerProps) => {
 
-  const [moniesList, setMoniesList] = useState<Array<Money>>([]);
+  const [moniesList, setMoniesList] = useState<Array<WithId<Money>>>([]);
 
   useEffect(() => {
     getLocalAsync();
@@ -28,13 +29,13 @@ const MoniesManager = ({ addCallback, getList, deleteCallback }: MoniesManagerPr
     await addCallback(money);
     await getLocalAsync();
   }
-  const deleteLocalAsync = async (name: string) => {
-    await deleteCallback(name);
+  const deleteLocalAsync = async (id: ObjectId | string) => {
+    await deleteCallback(id);
     await getLocalAsync();
   }
   return <>
-    <AddMoniesForm callback={addLocalAsync} payeeList={[{ name: "testname", _id: new ObjectId("testid") }]} />
-    <MoniesList currentlist={moniesList} deleteCallback={deleteLocalAsync} />
+    <AddMoniesForm callback={addLocalAsync} />
+    <BaseEntryList currentlist={moniesList} deleteCallback={deleteLocalAsync} />
   </>
 }
 
