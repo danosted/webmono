@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <Target Name="WatchCss" BeforeTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+    <Exec Command="npm run tailwind-watch" />
+  </Target>
+
+  <Target Name="BuildCss" BeforeTargets="BeforePublish" Condition="'$(Configuration)' == 'Release'">
+    <Exec Command="npm run tailwind-build" />
+  </Target>
+
 </Project>
