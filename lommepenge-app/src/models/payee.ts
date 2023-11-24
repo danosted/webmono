@@ -1,9 +1,7 @@
-import { OptionalId, WithId } from "mongodb";
+import BaseEntry from "./baseEntry";
 
-interface PayeeInterface extends Document {
-    name: string;
+interface Payee extends BaseEntry {
+
 }
-
-type Payee = OptionalId<PayeeInterface>
 
 export default Payee;

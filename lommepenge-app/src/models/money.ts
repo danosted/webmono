@@ -1,11 +1,10 @@
 import { ObjectId, OptionalId, WithId } from "mongodb";
 import Payee from "./payee";
+import BaseEntry from "./baseEntry";
 
-interface MoneyInterface {
+interface Money extends BaseEntry {
     currentAmount: number;
-    payee: Payee;
+    // payee: Payee;
 }
-
-type Money = OptionalId<MoneyInterface>
 
 export default Money;

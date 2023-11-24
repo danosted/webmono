@@ -1,3 +1,4 @@
+"use client"
 import { Listbox } from '@headlessui/react'
 
 interface SelectPickerModel {

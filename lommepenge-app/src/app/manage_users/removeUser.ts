@@ -5,7 +5,7 @@ import getDb from "../database";
 import { ObjectId } from "mongodb";
 import { DATABASE_COLLECTIONS, DATABASE_NAMES } from "@/constants/database_constants";
 
-const removeUser = async (id: ObjectId) => {
+const removeUser = async (id: ObjectId | string) => {
     try {
         const myDb = await getDb(DATABASE_NAMES.MAIN_DB);
         const receiversCol = myDb.collection<User>(DATABASE_COLLECTIONS.USER_DB);

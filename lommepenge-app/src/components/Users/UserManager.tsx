@@ -1,40 +1,41 @@
 "use client"
 import User from "@/models/user";
 import { ObjectId, WithId } from "mongodb";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AddUserForm from "./AddUser";
-import ReceiverList from "./UserList";
+import BaseEntryList from "./BaseEntryList";
 
 type ReceiverManagerProps = {
   addUserCallback: (name: string) => Promise<void>;
   getReceiverList: () => Promise<Array<WithId<User>>>;
-  deleteUserCallback: (id: ObjectId) => Promise<void>;
+  deleteUserCallback: (id: ObjectId | string) => Promise<void>;
 }
 
 const UserManager = ({ addUserCallback, getReceiverList, deleteUserCallback }: ReceiverManagerProps) => {
 
   const [userList, setUserList] = useState<Array<WithId<User>>>([]);
 
-  useEffect(() => {
-    getUserLocalAsync();
-
-  }, []);
-
-  const getUserLocalAsync = async () => {
+  const getUserLocalAsync = useCallback(async () => {
     const recivers = await getReceiverList();
     setUserList(recivers)
-  }
+  }, [getReceiverList]);
   const addUserLocalAsync = async (name: string) => {
     await addUserCallback(name);
     await getUserLocalAsync();
   }
-  const removeUserLocalAsync = async (id: ObjectId) => {
+  const removeUserLocalAsync = async (id: ObjectId | string) => {
     await deleteUserCallback(id);
     await getUserLocalAsync();
   }
+
+  useEffect(() => {
+    getUserLocalAsync();
+
+  }, [getUserLocalAsync]);
+
   return <>
     <AddUserForm callback={addUserLocalAsync} />
-    <ReceiverList currentlist={userList} deleteCallback={removeUserLocalAsync} />
+    <BaseEntryList currentlist={userList} deleteCallback={removeUserLocalAsync} />
   </>
 }
 

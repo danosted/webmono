@@ -4,7 +4,7 @@ import getDb from "../database";
 import Money from "@/models/money";
 import { ObjectId } from "mongodb";
 
-const removeMoney = async (obj: Money) => {
+const removeMoney = async (id: ObjectId | string) => {
     try {
         const myDb = await getDb(DATABASE_NAMES.MAIN_DB);
         const receiversCol = myDb.collection<Money>(DATABASE_COLLECTIONS.MONEY_DB);
