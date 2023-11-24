@@ -1,5 +1,4 @@
 "use server"
-
 import { DATABASE_COLLECTIONS, DATABASE_NAMES } from "@/constants/database_constants";
 import getDb from "../database";
 import Money from "@/models/money";

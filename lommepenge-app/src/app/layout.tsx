@@ -1,6 +1,8 @@
 import RequireAuthentication from '@/components/RequireAuthentication'
 import './globals.css'
 import NavBar from './NavBar'
+import MongoClientServiceProvider from '@/components/MongoClientServiceProvider'
+import clientPromise from '../../lib/mongodb'
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,12 +17,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <NavBar />
-        <main className='dark:bg-stone-900 dark:text-red-400 min-h-screen'>
-          <RequireAuthentication>
-            {children}
-          </RequireAuthentication>
-        </main>
+        <MongoClientServiceProvider clientService={clientPromise}>
+          <NavBar />
+          <main className='dark:bg-stone-900 dark:text-red-400 min-h-screen'>
+            <RequireAuthentication>
+              {children}
+            </RequireAuthentication>
+          </main>
+        </MongoClientServiceProvider>
       </body>
     </html>
   )

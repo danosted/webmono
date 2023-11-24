@@ -1,6 +1,6 @@
+"use client"
 import { TrashIcon } from '@heroicons/react/24/solid'
 import { MouseEvent } from "react";
-import MyCollection from "@/models/collection";
 import Money from '@/models/money';
 
 type MoniesListProps = {

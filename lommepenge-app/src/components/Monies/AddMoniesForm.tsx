@@ -1,33 +1,39 @@
 "use client"
-
-import Money from "@/models/money";
 import Payee from "@/models/payee";
-import { ObjectId } from "mongodb";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useContext } from "react";
 import SelectPicker from "../SelectPicker";
+import { MongoClientServiceContext } from "../MongoClientServiceProvider";
+import getClientDb from "../getClientDb";
+import { DATABASE_COLLECTIONS, DATABASE_NAMES } from "@/constants/database_constants";
+import getFromDb from "../getFromDb";
 
 type AddMoniesFormProps = {
-  callback: (money: Money) => Promise<void>;
-  payeeList: Array<Payee>;
+  callback: () => Promise<void>;
 }
 
-const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
-
+const AddMoniesForm = ({ callback }: AddMoniesFormProps) => {
+  const clientService = useContext(MongoClientServiceContext)
   const [amount, setAmount] = useState(0);
-  const [payee, setPayee] = useState<Payee>({ name: "Select payee" });
-  const [localPayeeList, setLocalPayeeList] = useState<Array<Payee>>([{ name: "Select payee" }, ...payeeList]);
+  const [payee, setPayee] = useState<Payee>();
+  const [localPayeeList, setLocalPayeeList] = useState<Array<Payee>>([]);
 
   useEffect(() => {
-    setLocalPayeeList([{ name: "Select payee" }, ...payeeList]);
-  }, [payeeList])
+    const doStuf = async () => {
+      const db = await getClientDb(clientService, DATABASE_NAMES.MAIN_DB);
+      if(!db) return;
+      const payeelist = await getFromDb<Payee>(db, DATABASE_COLLECTIONS.PAYEE_DB);
+      setLocalPayeeList(payeelist);
+    }
+    doStuf();
+  }, [])
 
   const addToCol = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!payee) return;
-    await callback({
-      currentAmount: amount,
-      payee: { name: payee.name, _id: new ObjectId(payee._id) },
-    });
+    // await callback({
+    //   currentAmount: amount,
+    //   payee: { name: payee.name, _id: new ObjectId(payee._id) },
+    // });
     setAmount(0);
     setPayee(localPayeeList[0]);
   }
@@ -52,7 +58,7 @@ const AddMoniesForm = ({ callback, payeeList }: AddMoniesFormProps) => {
       <SelectPicker
         onChange={v => payeeSelectCallback(v.id)}
         pickList={localPayeeList.map(l => { return { id: l._id?.toString(), name: l.name } })}
-        selected={{ name: payee.name, id: payee._id?.toString() }}
+        selected={payee !== undefined ? {name: payee.name, id: payee._id?.toString()} : undefined}
       />
     </label>
     <br />

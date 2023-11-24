@@ -1,6 +1,6 @@
 import { OptionalId, WithId } from "mongodb";
 
-interface PayeeInterface {
+interface PayeeInterface extends Document {
     name: string;
 }
 

@@ -1,3 +1,4 @@
+"use client"
 import User from "@/models/user";
 import { ObjectId, WithId } from "mongodb";
 import { TrashIcon } from '@heroicons/react/24/solid'
