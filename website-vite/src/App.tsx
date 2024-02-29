@@ -1,33 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Fragment, useState } from 'react'
+import { Transition } from '@headlessui/react'
+import { useTimeoutFn } from 'react-use'
+import { ArrowPathRoundedSquareIcon, CubeTransparentIcon } from '@heroicons/react/24/solid'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isShowing, setIsShowing] = useState(true)
+  const [, , resetIsShowing] = useTimeoutFn(() => setIsShowing(true), 500)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='min-h-screen px-8 py-16 bg-black'>
+        <div className='grid gap-8 items-center justify-center'>
+          <div className="h-32 w-32 mx-auto">
+            <Transition
+              as={Fragment}
+              show={isShowing}
+              enter="transform transition duration-[400ms]"
+              enterFrom="opacity-0 rotate-[-120deg] scale-50"
+              enterTo="opacity-100 rotate-0 scale-100"
+              leave="transform duration-200 transition ease-in-out"
+              leaveFrom="opacity-100 rotate-0 scale-100 "
+              leaveTo="opacity-0 scale-95 "
+            >
+              <CubeTransparentIcon className='h-full w-full rounded-md text-indigo-400 shadow-lg' />
+            </Transition>
+          </div>
+          <div className='relative group'>
+            <div className='absolute -inset-0.5 blur opacity-75 rounded-lg bg-gradient-to-r from-teal-400 to-indigo-600 animate-pulse group-active:-inset-1'></div>
+            <button
+              onClick={() => {
+                setIsShowing(false)
+                resetIsShowing()
+              }}
+              className="relative px-7 py-4 bg-black rounded-lg leading-none flex items-center divide-x divide-gray-600 group-active:bg-gray-900"
+            >
+              <ArrowPathRoundedSquareIcon className="text-teal-400 w-10 h-10 pr-3" />
+
+              <span className="pl-3 text-indigo-600">Click to transition</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
